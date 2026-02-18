@@ -36,53 +36,53 @@ window.loginUser = async function(username, password) {
     try {
         const deviceId = window.getDeviceId()
         
-        const { data: user, error } = await window.supabaseClient
+        const { data: users, error } = await window.supabaseClient
             .from('users')
             .select('*')
             .eq('username', username)
             .eq('password', password)
             .single()
         
-        if (error || !user) {
+        if (error || !users) {
             return { 
                 success: false, 
                 message: 'اسم المستخدم أو كلمة السر خطأ' 
             }
         }
         
-        if (user.device_id && user.device_id !== deviceId) {
+        if (users.device_id && users.device_id !== deviceId) {
             return { 
                 success: false, 
                 message: 'هذا الحساب مستخدم على جهاز آخر! لا يمكن الدخول من جهازين.' 
             }
         }
         
-        if (!user.device_id) {
+        if (!users.device_id) {
             const { error: updateError } = await window.supabaseClient
                 .from('users')
                 .update({ 
                     device_id: deviceId,
                     last_login: new Date()
                 })
-                .eq('id', user.id)
+                .eq('id', users.id)
             
             if (updateError) throw updateError
         } else {
             await window.supabaseClient
                 .from('users')
                 .update({ last_login: new Date() })
-                .eq('id', user.id)
+                .eq('id', users.id)
         }
         
         sessionStorage.setItem('logged_in', 'true')
         sessionStorage.setItem('username', username)
-        sessionStorage.setItem('user_id', user.id)
+        sessionStorage.setItem('user_id', users.id)
         
         return { 
             success: true, 
-            user: {
-                username: user.username,
-                id: user.id
+            users: {
+                username: users.username,
+                id: users.id
             }
         }
         
