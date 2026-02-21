@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Login · Deutsch mit Rawad</title>
+    
+    <!-- Styles & Fonts -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* تنسيقات خاصة بصفحة الدخول */
+        .login-body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-950);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, 
+                rgba(139, 92, 246, 0.2) 0%, 
+                rgba(249, 115, 22, 0.2) 25%,
+                rgba(6, 182, 212, 0.2) 50%,
+                transparent 70%
+            );
+            animation: rotate 30s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .login-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-2xl), var(--shadow-glow-strong);
+            position: relative;
+            z-index: 1;
+            animation: modalSlideIn 0.6s ease;
+        }
+        
+        .login-left {
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-header i {
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: float 3s ease infinite;
+        }
+        
+        .login-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+        
+        .login-header p {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+        }
+        
+        .login-form {
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            font-size: 1.2rem;
+            transition: all var(--transition-normal);
+            z-index: 1;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-full);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            position: relative;
+            z-index: 0;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 30px var(--purple-glow);
+        }
+        
+        .input-group input:focus + i {
+            color: var(--primary);
+        }
+        
+        .input-group input::placeholder {
+            color: var(--gray-600);
+        }
+        
+        .login-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--purple-glow);
+        }
+        
+        .login-submit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .login-submit:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .login-submit:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px var(--purple-glow);
+        }
+        
+        .login-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .login-error {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger-light);
+            padding: 15px 20px;
+            border-radius: var(--radius-full);
+            margin-top: 20px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .login-footer a {
+            color: var(--gray-400);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition-normal);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .login-footer a:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 20px var(--purple-glow);
+        }
+        
+        .login-right {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.2), 
+                rgba(249, 115, 22, 0.2), 
+                rgba(6, 182, 212, 0.2)
+            );
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-right::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .premium-teaser {
+            position: relative;
+            z-index: 1;
+            max-width: 400px;
+        }
+        
+        .premium-teaser h3 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .premium-teaser p {
+            color: var(--gray-300);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .teaser-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+        
+        .teaser-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: var(--gray-200);
+            font-size: 1.1rem;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-normal);
+        }
+        
+        .teaser-list li:hover {
+            transform: translateX(10px);
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .teaser-list li i {
+            color: var(--success);
+            font-size: 1.3rem;
+        }
+        
+        .teaser-cta {
+            text-align: center;
+        }
+        
+        .teaser-cta p {
+            margin-bottom: 15px;
+            color: var(--gray-400);
+        }
+        
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease infinite;
+        }
+        
+        .floating-icon-1 {
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-icon-2 {
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+        
+        .floating-icon-3 {
+            top: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @media (max-width: 968px) {
+            .login-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+            
+            .login-right {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-left {
+                padding: 40px 20px;
+            }
+            
+            .login-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .input-group input {
+                padding: 15px 15px 15px 50px;
+            }
+        }
+    </style>
+</head>
+<body class="login-body">
+    <!-- أيقونات عائمة -->
+    <div class="floating-icon floating-icon-1">
+        <i class="fas fa-book"></i>
+    </div>
+    <div class="floating-icon floating-icon-2">
+        <i class="fas fa-headphones"></i>
+    </div>
+    <div class="floating-icon floating-icon-3">
+        <i class="fas fa-gem"></i>
+    </div>
+
+    <div class="login-wrapper">
+        <!-- الجانب الأيسر - نموذج الدخول -->
+        <div class="login-left">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fas fa-gem"></i>
+                    <h2>Deutsch mit Rawad</h2>
+                    <p>Premium Mitglieder Bereich</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input 
+                            type="text" 
+                            id="loginUsername" 
+                            placeholder="Benutzername"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            placeholder="Passwort"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" id="loginButton" class="login-submit">
+                        <span>Einloggen</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    <div id="loginError" class="login-error"></div>
+                </form>
+
+                <div class="login-footer">
+                    <a href="index.html">
+                        <i class="fas fa-arrow-left"></i>
+                        Zurück zur kostenlosen Seite
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- الجانب الأيمن - العرض التسويقي -->
+        <div class="login-right">
+            <div class="premium-teaser">
+                <h3>Noch kein Premium?</h3>
+                <p>Erhalte Zugang zu allen exklusiven Inhalten:</p>
+                
+                <ul class="teaser-list">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Leseverstehen Teile 2-5</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Hörverstehen Teile 1-4</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Über 100+ Aufgaben</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Sofortiges Feedback</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Punkte & Fortschritt</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Lebenslanger Zugang</span>
+                    </li>
+                </ul>
+
+                <div class="teaser-cta">
+                    <p>👋 Kontaktiere uns auf Telegram:</p>
+                    <a href="https://t.me/mez123794" target="_blank" class="telegram-btn">
+                        <i class="fab fa-telegram"></i>
+                        @mez123794
+                    </a>
+                    <p style="margin-top: 20px; font-size: 0.9rem;">
+                        ⚡ Einmalzahlung - Danach erhältst du deine Zugangsdaten
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="supabase.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ========== عناصر النموذج ==========
+            const form = document.getElementById('loginForm');
+            const username = document.getElementById('loginUsername');
+            const password = document.getElementById('loginPassword');
+            const button = document.getElementById('loginButton');
+            const errorDiv = document.getElementById('loginError');
+
+            // ========== إعادة تعيين الزر ==========
+            function resetButton() {
+                button.disabled = false;
+                button.innerHTML = '<span>Einloggen</span><i class="fas fa-arrow-right"></i>';
+            }
+
+            // ========== عرض الخطأ ==========
+            function showError(msg) {
+                if (errorDiv) {
+                    errorDiv.textContent = msg;
+                    errorDiv.style.display = 'block';
+                    
+                    // اهتزاز النموذج
+                    form.style.animation = 'shake 0.3s ease';
+                    setTimeout(() => {
+                        form.style.animation = '';
+                    }, 300);
+                    
+                    // إخفاء الخطأ بعد 4 ثواني
+                    setTimeout(() => {
+                        errorDiv.style.display = 'none';
+                    }, 4000);
+                }
+            }
+
+            // ========== تأثير الاهتزاز ==========
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-10px); }
+                    75% { transform: translateX(10px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // ========== التحقق من الجلسة الحالية ==========
+            if (window.checkSession && window.checkSession()) {
+                // إذا كان هناك جلسة نشطة، انتقل إلى لوحة التحكم
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // ========== معالجة تقديم النموذج ==========
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    // التحقق من المدخلات
+                    if (!username || !password) return;
+                    
+                    const usernameVal = username.value.trim();
+                    const passwordVal = password.value.trim();
+                    
+                    if (!usernameVal || !passwordVal) {
+                        showError('❌ Bitte Benutzername und Passwort eingeben.');
+                        return;
+                    }
+
+                    // التحقق من وجود دالة loginUser
+                    if (typeof window.loginUser !== 'function') {
+                        showError('❌ Systemfehler. Bitte Seite neu laden (F5).');
+                        return;
+                    }
+
+                    // تعطيل الزر وعرض حالة التحميل
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Wird geprüft...';
+
+                    try {
+                        // محاولة تسجيل الدخول
+                        const result = await window.loginUser(usernameVal, passwordVal);
+                        
+                        if (result && result.success) {
+                            // حفظ اسم المستخدم
+                            localStorage.setItem('currentUsername', usernameVal);
+                            
+                            // رسالة نجاح قصيرة
+                            showSuccess('✓ Login erfolgreich! Weiterleitung...');
+                            
+                            // التوجيه إلى لوحة التحكم
+                            setTimeout(() => {
+                                window.location.href = 'dashboard.html';
+                            }, 500);
+                        } else {
+                            // عرض رسالة الخطأ
+                            const errorMsg = result && result.message 
+                                ? result.message 
+                                : '❌ Benutzername oder Passwort falsch.';
+                            showError(errorMsg);
+                            resetButton();
+                        }
+                    } catch (err) {
+                        console.error('Login error:', err);
+                        showError('❌ Verbindungsfehler. Bitte versuche es später erneut.');
+                        resetButton();
+                    }
+                });
+            }
+
+            // ========== دالة عرض النجاح ==========
+            function showSuccess(msg) {
+                if (errorDiv) {
+                    errorDiv.textContent = msg;
+                    errorDiv.style.display = 'block';
+                    errorDiv.style.background = 'rgba(16, 185, 129, 0.1)';
+                    errorDiv.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                    errorDiv.style.color = 'var(--success-light)';
+                }
+            }
+
+            // ========== دعم مفتاح Enter ==========
+            if (password) {
+                password.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        form.dispatchEvent(new Event('submit'));
+                    }
+                });
+            }
+
+            // ========== تأثيرات التركيز على الحقول ==========
+            const inputs = document.querySelectorAll('.input-group input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+
+            // ========== رسالة ترحيب عشوائية ==========
+            const greetings = [
+                '👋 Schön dich zu sehen!',
+                '🌟 Willkommen zurück!',
+                '🚀 Bereit zu lernen?',
+                '📚 Tauchen wir ein!',
+                '🎯 Los geht\'s!'
+            ];
+            
+            const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+            const headerP = document.querySelector('.login-header p');
+            if (headerP) {
+                headerP.textContent = randomGreeting;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,321 +3,985 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deutsch mit Rawad · Lerne Deutsch intelligenter</title>
+    <title>Deutsch mit Rawad · Lerne Deutsch wie ein Profi</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Lerne Deutsch mit Rawad - Kostenlose und Premium Übungen für Leseverstehen und Hörverstehen. Interaktive Geschichten mit Sofort-Feedback!">
+    <meta name="keywords" content="Deutsch lernen, Leseverstehen, Hörverstehen, Deutsch Übungen, Rawad, German learning">
+    <meta name="author" content="Rawad">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Deutsch mit Rawad">
+    <meta property="og:description" content="Lerne Deutsch mit interaktiven Geschichten">
+    <meta property="og:type" content="website">
+    
+    <!-- Styles & Fonts -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* تأثيرات إضافية للصفحة الرئيسية */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.1;
+            animation: floatShape 20s infinite alternate;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 25s;
+        }
+        
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            bottom: 10%;
+            right: 5%;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+        
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            top: 40%;
+            right: 30%;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+        
+        @keyframes floatShape {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
+        }
+        
+        .visitor-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139, 92, 246, 0.1);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            font-size: 0.9rem;
+            margin-left: 20px;
+        }
+        
+        .visitor-counter i {
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+        
+        .progress-ring {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+        
+        .progress-ring-circle {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle-bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-ring-circle-progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+    </style>
 </head>
 <body>
-    <!-- شاشة تسجيل الدخول -->
-    <div class="login-screen" id="loginScreen">
-        <div class="login-container">
-            <div class="login-card">
-                <div class="login-logo">
+    <!-- أشكال عائمة خلفية -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- شريط التنقل المتطور -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
                     <i class="fas fa-gem"></i>
-                </div>
-                <h2>Deutsch mit Rawad</h2>
-                <p class="login-subtitle">الرجاء إدخال بيانات الدخول</p>
-                
-                <div class="login-input-group">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="loginUsername" placeholder="اسم المستخدم" autocomplete="off">
+                    <span>Deutsch mit Rawad</span>
                 </div>
                 
-                <div class="login-input-group">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="loginPassword" placeholder="كلمة السر">
+                <div class="nav-links">
+                    <a href="#free-content" class="nav-link">
+                        <i class="fas fa-book-open"></i>
+                        Kostenlos
+                    </a>
+                    <a href="#premium" class="nav-link">
+                        <i class="fas fa-crown"></i>
+                        Premium
+                    </a>
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user-astronaut"></i>
+                        Login
+                        <span class="visitor-counter">
+                            <i class="fas fa-eye"></i>
+                            <span id="visitorCount">0</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قسم الترحيب الأسطوري -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-free">
+                        <i class="fas fa-star"></i>
+                        Kostenlos starten
+                    </span>
                 </div>
                 
-                <button class="login-button" id="loginButton">
-                    <span>دخول</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
+                <h1>
+                    Deutsch lernen <br>
+                    <span class="glow-text">intelligenter & schneller</span>
+                </h1>
                 
-                <div class="login-error" id="loginErrorMessage"></div>
+                <p>
+                    🚀 Mit unseren interaktiven Übungen für Lesen und Hören. 
+                    <br class="mobile-hide">
+                    Sofortiges Feedback & Punkte sammeln!
+                </p>
                 
-                <div class="login-footer">
-                    <p>للحصول على حساب، يرجى التواصل مع Rawad</p>
-                    <div class="login-social">
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Geschichten</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Fragen</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Verfügbar</span>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#free-content" class="btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Jetzt kostenlos starten
+                    </a>
+                    <a href="#premium" class="btn-secondary">
+                        <i class="fas fa-gem"></i>
+                        Premium entdecken
+                    </a>
+                </div>
+                
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                        <span>Sofortiges Feedback</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                        <span>Punkte & Fortschritt</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                        <span>Arabische & Deutsche Erklärungen</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Magischer animierter Hintergrund -->
-    <div class="bg-animation">
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-        <div class="wave wave3"></div>
-    </div>
-
-    <!-- Fortschrittsbalken oben -->
-    <div class="progress-bar-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <!-- Hauptcontainer (مخفي حتى تسجيل الدخول) -->
-    <div class="container" id="homePage" style="display: none;">
-        <!-- Header mit Logo und Stats -->
-        <header>
-            <div class="logo">
-                <i class="fas fa-gem logo-icon"></i>
-                <span class="logo-text">Deutsch mit <span class="logo-highlight">Rawad</span></span>
+    <!-- القسم المجاني - Lesen Teil 1 -->
+    <section id="free-content" class="free-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h2>
+                    Leseverstehen Teil 1
+                    <span class="badge-free">
+                        <i class="fas fa-gift"></i>
+                        Kostenlos
+                    </span>
+                </h2>
+                <p>
+                    ✨ Starte mit diesen 6 Geschichten kostenlos. Kein Login nötig!
+                    <br>
+                    <span style="color: var(--gray-400); font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i>
+                        Lesen Teile 2-5 und Hören sind Premium
+                    </span>
+                </p>
             </div>
-            <div class="header-stats" id="headerStats">
-                <div class="stat-item">
-                    <i class="fas fa-users stat-icon"></i>
-                    <span id="visitorCount">-</span>
+
+            <!-- شبكة القصص المجانية -->
+            <div class="stories-grid" id="freeStoriesGrid">
+                <!-- يتم التعبئة عبر JavaScript -->
+            </div>
+
+            <!-- شريط التقدم -->
+            <div class="free-progress">
+                <div class="progress-info">
+                    <span>
+                        <i class="fas fa-flag-checkered"></i>
+                        Dein Fortschritt
+                    </span>
+                    <span id="freeProgressText">0/6 Geschichten</span>
                 </div>
-                <div class="stat-item">
-                    <i class="fas fa-user-lock stat-icon"></i>
-                    <span id="currentUser"></span>
+                <div class="viewer-progress-wrap">
+                    <div class="viewer-progress-fill" id="freeProgressBar" style="width: 0%;"></div>
                 </div>
             </div>
-        </header>
+        </div>
+    </section>
 
-        <main>
-            <!-- Hero Section mit Willkommensnachricht -->
-            <div class="hero-section" id="heroSection">
-                <div class="hero-badge">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Willkommen zurück!</span>
+    <!-- القسم المدفوع - Premium Showcase -->
+    <section id="premium" class="premium-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-crown" style="color: var(--gold);"></i>
                 </div>
-                <h1 class="hero-title">
-                    <span class="hero-title-main">Deutsch lernen mit Rawad</span>
-                    <span class="hero-title-sub">Hörverstehen & Leseverstehen</span>
-                </h1>
-               
-                <!-- Kategorie-Karten -->
-                <div class="category-cards">
-                    <div class="category-card" id="lesenCategory">
-                        <div class="category-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3>Leseverstehen</h3>
-                        <p>5 Premium Geschichten</p>
-                        <div class="category-progress">
-                            <div class="progress" style="width: 0%"></div>
-                        </div>
-                        <button class="btn btn-category" id="startLesenBtn">
-                            <span>Starten</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
+                <h2 style="background: linear-gradient(135deg, var(--gold), var(--gold-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Premium Bereich
+                </h2>
+                <p>
+                    🌟 Alle Teile 2-5 für Lesen und Hören. Einmalzahlung - lebenslanger Zugang!
+                </p>
+            </div>
+
+            <!-- بطاقات العرض -->
+            <div class="premium-showcase">
+                <!-- Lesen Premium Card -->
+                <div class="premium-card">
+                    <div class="premium-badge">
+                        <i class="fas fa-star"></i>
+                        Beliebt
+                    </div>
+                    <div class="premium-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Leseverstehen Teile 2-5</h3>
+                    <p>📚 4 weitere Teile mit über 40 Übungen</p>
+                    
+                    <ul class="premium-features">
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 2: Verständnisübungen</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 3: Zuordnungsaufgaben</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 4: Ja/Nein-Fragen</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 5: Fortgeschrittene Texte</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="premium-price">
+                        <span class="price">Einmalzahlung</span>
                     </div>
                     
-                    <div class="category-card" id="hörenCategory">
-                        <div class="category-icon">
-                            <i class="fas fa-headphones"></i>
-                        </div>
-                        <h3>Hörverstehen</h3>
-                        <p>Bald verfügbar</p>
-                        <div class="category-progress">
-                            <div class="progress" style="width: 0%"></div>
-                        </div>
-                        <button class="btn btn-category" id="startHörenBtn">
-                            <span>Starten</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
+                    <div class="premium-lock">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- Hören Premium Card -->
+                <div class="premium-card featured">
+                    <div class="premium-badge">
+                        <i class="fas fa-fire"></i>
+                        NEU
+                    </div>
+                    <div class="premium-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3>Hörverstehen Teile 1-4</h3>
+                    <p>🎧 4 Teile mit authentischen Hörtexten</p>
+                    
+                    <ul class="premium-features">
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 1: Alltagsgespräche</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 2: Telefongespräche</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 3: Kurzgeschichten</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Teil 4: Wer sagt was?</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="premium-price">
+                        <span class="price">Einmalzahlung</span>
+                        <span class="old-price">50€</span>
+                        <span class="discount">-40%</span>
+                    </div>
+                    
+                    <div class="premium-lock">
+                        <i class="fas fa-lock"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- LESEN SEKTION - Teil 1 -->
-            <div class="category-section" id="lesenSection" style="display: none;">
-                <div class="section-header">
-                    <button class="btn btn-back" id="backToHomeFromLesen">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Zurück</span>
-                    </button>
-                    <h2 class="section-title">
-                        <i class="fas fa-book-open section-title-icon"></i>
-                        Leseverstehen · Premium
-                    </h2>
-                    <div class="teil-indicator">
-                        <span class="teil active">1</span>
-                        <span class="teil">2</span>
-                        <span class="teil">3</span>
-                        <span class="teil">4</span>
-                        <span class="teil">5</span>
+            <!-- قسم الاتصال -->
+            <div class="premium-cta">
+                <div class="cta-content">
+                    <h3>
+                        <i class="fab fa-telegram"></i>
+                        Kontaktiere uns jetzt!
+                    </h3>
+                    <p>Nach der Zahlung erhältst du deine persönlichen Zugangsdaten innerhalb von 24h.</p>
+                    
+                    <div class="cta-buttons">
+                        <a href="https://t.me/mez123794" target="_blank" class="telegram-btn">
+                            <i class="fab fa-telegram"></i>
+                            @mez123794
+                        </a>
+                        <a href="login.html" class="btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Bereits Kunde?
+                        </a>
                     </div>
-                </div>
-
-                <!-- Geschichten-Grid für Lesen -->
-                <div class="stories-grid" id="lesenStoriesGrid">
-                    <!-- Wird per JavaScript befüllt -->
-                </div>
-            </div>
-
-            <!-- HÖREN SEKTION - Teil 1 -->
-            <div class="category-section" id="hörenSection" style="display: none;">
-                <div class="section-header">
-                    <button class="btn btn-back" id="backToHomeFromHören">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Zurück</span>
-                    </button>
-                    <h2 class="section-title">
-                        <i class="fas fa-headphones section-title-icon"></i>
-                        Hörverstehen · Bald
-                    </h2>
-                    <div class="teil-indicator">
-                        <span class="teil active">1</span>
-                        <span class="teil">2</span>
-                        <span class="teil">3</span>
-                        <span class="teil">4</span>
-                    </div>
-                </div>
-
-                <!-- Geschichten-Grid für Hören -->
-                <div class="stories-grid" id="hörenStoriesGrid">
-                    <div class="story-card coming-soon">
-                        <i class="fas fa-clock story-icon"></i>
-                        <h3>Hörgeschichten</h3>
-                        <p>Bald verfügbar</p>
-                        <div class="story-badge">Coming Soon</div>
+                    
+                    <div class="payment-methods">
+                        <span>Zahlungsmethoden:</span>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-visa"></i>
+                        <span>🇩🇪 Überweisung</span>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Fragen Sektion -->
-            <div class="questions-section" id="questionsSection" style="display: none;">
-                <div class="questions-header">
-                    <button class="btn btn-back" id="backToStoriesBtn">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Zurück zu den Geschichten</span>
-                    </button>
-                    <div class="category-badge" id="currentCategoryBadge"></div>
+    <!-- قسم المميزات الإضافية -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Sofortiges Feedback</h3>
+                    <p>Erfahre direkt nach jeder Antwort, ob du richtig liegst.</p>
                 </div>
                 
-                <div class="story-header" id="storyHeader">
-                    <h2 class="story-title" id="currentStoryTitle"></h2>
-                    <div class="story-progress">
-                        <span id="currentQuestionNumber">1</span>/<span id="totalQuestions">8</span>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
+                    <h3>Fortschritt verfolgen</h3>
+                    <p>Sieh deine Punkte und deinen Lernfortschritt.</p>
                 </div>
-
-                <!-- ملخص القصة مع اختيار اللغة -->
-                <div class="summary-section" id="summarySection">
-                    <div class="summary-header">
-                        <span class="summary-label">
-                            <i class="fas fa-book-reader"></i>
-                            ملخص القصة / Zusammenfassung
-                        </span>
-                        <div class="summary-lang-tabs">
-                            <button type="button" class="summary-lang-btn active" data-lang="ar" title="العربية">
-                                عربي
-                            </button>
-                            <button type="button" class="summary-lang-btn" data-lang="de" title="Deutsch">
-                                Deutsch
-                            </button>
-                        </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
                     </div>
-                    <div class="summary-content" id="summaryContent" dir="auto"></div>
+                    <h3>Zweisprachig</h3>
+                    <p>Erklärungen auf Deutsch und Arabisch.</p>
                 </div>
-
-                <div class="question-card" id="questionCard">
-                    <div class="question-badge">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Ist diese Aussage richtig oder falsch?</span>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
-                    
-                    <div class="question-text-container" id="questionTextContainer">
-                        <!-- Wird per JavaScript befüllt -->
-                    </div>
-
-                    <div class="options-container" id="optionsContainer">
-                        <button class="option-btn option-r" data-answer="R">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Richtig (R)</span>
-                        </button>
-                        <button class="option-btn option-f" data-answer="F">
-                            <i class="fas fa-times-circle"></i>
-                            <span>Falsch (F)</span>
-                        </button>
-                    </div>
-
-                    <div class="feedback-container" id="feedbackContainer" style="display: none;">
-                        <div class="feedback-icon" id="feedbackIcon"></div>
-                        <div class="feedback-message" id="feedbackMessage"></div>
-                    </div>
-
-                    <div class="navigation-buttons">
-                        <button class="btn btn-next" id="nextBtn" disabled>
-                            <span>Nächste Frage</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
+                    <h3>Responsive Design</h3>
+                    <p>Lerne auf allen Geräten - Handy, Tablet, PC.</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Ergebnisse Sektion -->
-            <div class="results-section" id="resultsSection" style="display: none;">
-                <div class="results-card">
-                    <div class="results-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <h2 class="results-title">Geschafft! 🎉</h2>
-                    <div class="results-status" id="resultsStatus">
-                        <span class="status-badge status-pass" id="statusBadge">ناجح</span>
-                    </div>
-                    <p class="results-subtitle" id="resultsSubtitle">Tolle Leistung!</p>
-                    
-                    <div class="score-display">
-                        <div class="score-circle" id="scoreCircle">
-                            <span class="score-number" id="finalScore">0</span>
-                            <span class="score-total">/ <span id="finalTotal">0</span></span>
-                        </div>
-                        <div class="score-stats">
-                            <div class="score-stat correct-stat">
-                                <i class="fas fa-check-circle"></i>
-                                <span id="correctCount">0</span> richtig
-                            </div>
-                            <div class="score-stat wrong-stat">
-                                <i class="fas fa-times-circle"></i>
-                                <span id="wrongCount">0</span> falsch
-                            </div>
-                            <div class="score-stat points-stat">
-                                <i class="fas fa-star"></i>
-                                <span id="pointsEarned">0</span> Punkte
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="results-actions">
-                        <button class="btn btn-primary" id="tryAgainBtn">
-                            <i class="fas fa-redo-alt"></i>
-                            <span>Nochmal üben</span>
-                        </button>
-                        <button class="btn btn-secondary" id="moreStoriesBtn">
-                            <i class="fas fa-book"></i>
-                            <span>Mehr Geschichten</span>
-                        </button>
-                    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-gem"></i>
+                    <span>Deutsch mit Rawad</span>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#free-content">Kostenlos</a>
+                    <a href="#premium">Premium</a>
+                    <a href="login.html">Login</a>
+                    <a href="#" onclick="showImpressum()">Impressum</a>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://t.me/mez123794" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+                
+                <div class="footer-copyright">
+                    <p>© 2026 Deutsch mit Rawad · Alle Rechte vorbehalten</p>
+                    <p class="made-with">
+                        Mit <i class="fas fa-heart" style="color: var(--danger);"></i> gemacht für dich
+                    </p>
                 </div>
             </div>
-        </main>
+        </div>
+    </footer>
 
-        <!-- Footer -->
-        <footer>
-            <p>© 2026 Deutsch mit Rawad · Lerne Deutsch mit Spaß</p>
-            <div class="footer-links">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-tiktok"></i></a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Toast Benachrichtigungen -->
-    <div class="toast-notification" id="toastNotification">
-        <i class="fas fa-info-circle"></i>
+    <!-- Toast Notifications -->
+    <div id="toastNotification" class="toast-notification">
+        <i id="toastIcon" class="fas fa-info-circle"></i>
         <span id="toastMessage"></span>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- JavaScript -->
     <script src="supabase.js"></script>
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // تهيئة المتغيرات
+            const grid = document.getElementById('freeStoriesGrid');
+            const visitorSpan = document.getElementById('visitorCount');
+            const freeProgressBar = document.getElementById('freeProgressBar');
+            const freeProgressText = document.getElementById('freeProgressText');
+            
+            // إحصائيات الزوار
+            async function updateVisitorCount() {
+                try {
+                    const res = await fetch('https://api.countapi.xyz/hit/deutsch-mit-rawad/visitors');
+                    const data = await res.json();
+                    if (visitorSpan) {
+                        visitorSpan.textContent = data.value.toLocaleString('de-DE');
+                    }
+                } catch (e) {
+                    console.log('Visitor count error:', e);
+                }
+            }
+            
+            // تحميل القصص
+            async function loadFreeStories() {
+                if (!grid) return;
+                
+                // عرض حالة التحميل
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                        <div class="spinner"></div>
+                        <p style="margin-top: 20px; color: var(--gray-400);">
+                            Lade Geschichten...
+                        </p>
+                    </div>
+                `;
+                
+                const data = await window.loadQuestionsFile('lesen1');
+                
+                if (data && Array.isArray(data)) {
+                    grid.innerHTML = '';
+                    
+                    // تحديث التقدم
+                    updateProgress(data.length);
+                    
+                    data.forEach((story, index) => {
+                        const isCompleted = localStorage.getItem(`story_free_${index}_completed`) === 'true';
+                        const icon = getStoryIcon(story.title);
+                        
+                        const card = document.createElement('div');
+                        card.className = `story-card ${isCompleted ? 'completed' : ''}`;
+                        card.setAttribute('data-index', index);
+                        
+                        card.innerHTML = `
+                            <div class="story-icon">
+                                <i class="fas ${icon}"></i>
+                            </div>
+                            <h3>${story.title || 'Geschichte ' + (index + 1)}</h3>
+                            <p>
+                                <i class="fas fa-question-circle"></i>
+                                ${story.questions ? story.questions.length : 0} Fragen
+                            </p>
+                            <div class="story-footer">
+                                <span class="story-badge">
+                                    <i class="fas fa-star"></i>
+                                    Kostenlos
+                                </span>
+                                <button class="btn-start" data-index="${index}">
+                                    <span>Starten</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            ${isCompleted ? '<div class="completed-badge"><i class="fas fa-check-circle"></i></div>' : ''}
+                        `;
+                        
+                        const btn = card.querySelector('.btn-start');
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            startStory(story, index);
+                        });
+                        
+                        grid.appendChild(card);
+                    });
+                } else {
+                    grid.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Die Geschichten konnten nicht geladen werden.
+                            <button onclick="location.reload()" class="btn-secondary" style="margin-top: 15px;">
+                                <i class="fas fa-redo"></i> Neu laden
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+            
+            // أيقونة لكل قصة
+            function getStoryIcon(title) {
+                const icons = {
+                    'Die Nachbarin': 'fa-user-friends',
+                    'Im Wald': 'fa-tree',
+                    'Handy verloren': 'fa-mobile-alt',
+                    'Das Fahrrad': 'fa-bicycle',
+                    'Steffi': 'fa-user-tie',
+                    'Japan': 'fa-flag'
+                };
+                
+                for (let key in icons) {
+                    if (title?.includes(key)) return icons[key];
+                }
+                return 'fa-book-open';
+            }
+            
+            // بدأ القصة
+            function startStory(story, index) {
+                // حفظ التقدم
+                sessionStorage.setItem('currentStory', JSON.stringify(story));
+                window.location.href = `viewer.html?file=lesen1&index=${index}`;
+            }
+            
+            // تحديث شريط التقدم
+            function updateProgress(totalStories) {
+                let completed = 0;
+                for (let i = 0; i < totalStories; i++) {
+                    if (localStorage.getItem(`story_free_${i}_completed`) === 'true') {
+                        completed++;
+                    }
+                }
+                
+                const percentage = (completed / totalStories) * 100;
+                if (freeProgressBar) {
+                    freeProgressBar.style.width = `${percentage}%`;
+                }
+                if (freeProgressText) {
+                    freeProgressText.textContent = `${completed}/${totalStories} Geschichten`;
+                }
+            }
+            
+            // تحديث التقدم عند العودة من المشاهد
+            window.addEventListener('focus', () => {
+                const data = window.loadQuestionsFile('lesen1');
+                if (data && Array.isArray(data)) {
+                    updateProgress(data.length);
+                }
+            });
+            
+            // Toast Nachricht
+            window.showToast = function(message, type = 'info') {
+                const toast = document.getElementById('toastNotification');
+                const toastMsg = document.getElementById('toastMessage');
+                const toastIcon = document.getElementById('toastIcon');
+                
+                if (!toast || !toastMsg) return;
+                
+                toastMsg.textContent = message;
+                toast.className = `toast-notification show ${type}`;
+                
+                if (type === 'success') toastIcon.className = 'fas fa-check-circle';
+                else if (type === 'error') toastIcon.className = 'fas fa-exclamation-circle';
+                else toastIcon.className = 'fas fa-info-circle';
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            };
+            
+            // Impressum
+            window.showImpressum = function() {
+                alert('Deutsch mit Rawad\nKontakt: @mez123794\nAlle Rechte vorbehalten.');
+            };
+            
+            // بدأ التحميل
+            await updateVisitorCount();
+            await loadFreeStories();
+            
+            // عرض ترحيب
+            setTimeout(() => {
+                showToast('👋 Willkommen bei Deutsch mit Rawad!', 'info');
+            }, 1000);
+        });
+    </script>
+    
+    <style>
+        /* تنسيقات إضافية للصفحة الرئيسية */
+        .hero-badge {
+            margin-bottom: 20px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+        
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-300);
+        }
+        
+        .free-progress {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--gray-400);
+        }
+        
+        .premium-features {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .premium-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--gray-300);
+        }
+        
+        .premium-features li i {
+            color: var(--success);
+        }
+        
+        .premium-price {
+            margin: 20px 0;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: var(--gray-500);
+            margin-left: 10px;
+        }
+        
+        .discount {
+            background: var(--danger);
+            color: white;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .cta-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .payment-methods {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            color: var(--gray-500);
+            font-size: 1.5rem;
+        }
+        
+        .payment-methods span {
+            font-size: 0.9rem;
+        }
+        
+        .features-section {
+            padding: 80px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--transition-normal);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+        
+        .feature-card p {
+            color: var(--gray-400);
+        }
+        .badge-free{
+        color:black !important;
+       }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        
+        .footer-logo i {
+            color: var(--primary);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-social a {
+            color: var(--gray-400);
+            font-size: 1.5rem;
+            transition: all var(--transition-normal);
+        }
+        
+        .footer-social a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-copyright {
+            text-align: center;
+            color: var(--gray-600);
+        }
+        
+        .made-with {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .completed-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: var(--success);
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.5));
+        }
+        
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--dark-800);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-full);
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--light);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 9999;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+        
+        .toast-notification.success {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .toast-notification.error {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .toast-notification i {
+            font-size: 1.3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .hero-features {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .payment-methods {
+                flex-wrap: wrap;
+            }
+            
+            .toast-notification {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+            }
+        }
+    </style>
 </body>
 </html>
