@@ -17,17 +17,17 @@ if (typeof window.supabase !== 'undefined') {
 // --- روابط ملفات الأسئلة (مرتبة ومنسقة) ---
 window.QUESTIONS_FILES = {
     // المجاني
-    lesen1: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/lesen1.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2xlc2VuMS5qc29uIiwiaWF0IjoxNzcxNjI2NzYzLCJleHAiOjE4MDMxNjI3NjN9.WglJLV-TtydEsIOeGSy4fWfP-Hi16rk12Pv22I4Csmk',
+    lesen1: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/lesen1.json',
     // المدفوعة - Lesen
-    lesen2: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/Lesen2.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL0xlc2VuMi5qc29uIiwiaWF0IjoxNzcxNjI2NjY1LCJleHAiOjE4MDMxNjI2NjV9.U6MUwW-AIP6iG7z1_2nmIxmUSX-W1JUtxkNZCYYFxSw',
-    lesen3: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/lesen3.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2xlc2VuMy5qc29uIiwiaWF0IjoxNzcxNzkxNzQxLCJleHAiOjE4MDMzMjc3NDF9.Eox_hlAOeo-f2cIO-6lnhKpqND2byXaASU5IwmknooI',
-    lesen4: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/lesen4.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2xlc2VuNC5qc29uIiwiaWF0IjoxNzcxNzkxNzg0LCJleHAiOjE4MDMzMjc3ODR9.O3PBaFuqeV6cfFDiPNMnoT9R9ZCHxOegVA6u6h_NNtw',
-    lesen5: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/lesen5.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2xlc2VuNS5qc29uIiwiaWF0IjoxNzcxNjI2NzMwLCJleHAiOjE4MDMxNjI3MzB9.WJBDLqjzvlOXTHhqcvCw93oc4YG-AokMlQW250t0964',
+    lesen2: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/Lesen2.json',
+    lesen3: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/lesen3.json',
+    lesen4: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/lesen4.json',
+    lesen5: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/lesen5.json',
     // المدفوعة - Hören
-    horen1: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/horen1.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2hvcmVuMS5qc29uIiwiaWF0IjoxNzcyNDAyNjcwLCJleHAiOjE4MDM5Mzg2NzB9.d_qURjjOBG7c0tobNYv-S9qLh8lPN9YKOSmstjWP-ng',
-    horen2: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/horen2.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2hvcmVuMi5qc29uIiwiaWF0IjoxNzcyMzEzNDk0LCJleHAiOjE4MDM4NDk0OTR9.YuXKKvfwYQVqsOiNpictNsE20a8yBINy2SV9oKolrTw',
-    horen3: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/horen3.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2hvcmVuMy5qc29uIiwiaWF0IjoxNzcyMTM2MjAwLCJleHAiOjE4MDM2NzIyMDB9.z5QcoLZEqQCyEKddxVYysiRmZNUPIr1_NO5ouDEAfQE',
-    horen4: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/sign/teil1lesen/horen4.json?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83N2Q1N2Q3NC04MDA2LTRhZDctOTNlNS0yZmYyM2U2YmI1ZjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWlsMWxlc2VuL2hvcmVuNC5qc29uIiwiaWF0IjoxNzcyNDYxNzY5LCJleHAiOjE4MDM5OTc3Njl9.CzltEznFQFHaLAwBH9-yBJ9b01esuB_u8wQie8l4624'
+    horen1: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/horen1.json',
+    horen2: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/horen2.json',
+    horen3: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/horen3.json',
+    horen4: 'https://qrznwrvfjacoepegjpov.supabase.co/storage/v1/object/public/teil1lesen/horen4.json'
 };
 
 // --- دوال التعامل مع الأسئلة ---
